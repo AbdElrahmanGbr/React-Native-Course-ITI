@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import axios from 'axios';
-import React, { userState } from 'react';
+import React, {userState} from 'react';
 import type { Node } from 'react';
 import {
   SafeAreaView,
@@ -42,11 +42,10 @@ const App: () => Node = () => {
   });
 
   const search = () => {
-    axios.get(apiurl + '&s=' + state.s).then(({ data }) => {
+    axios.get(apiurl + '&s=' + state.s).then(({data}) => {
       let results = data.Search;
-      console.log(results);
       setState(prevState => {
-        return { ...prevState, results: results };
+        return {...prevState, results: results};
       });
     });
   };
@@ -54,9 +53,9 @@ const App: () => Node = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Movie DB</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchbox}
         onChangeText={text => setState(prevState => {
-          return { ...prevState, s: text };
+          return {...prevState, s: text};
         })}
         onSubmitEditing={search}
         value={state.s}
@@ -73,13 +72,12 @@ const App: () => Node = () => {
               resizeMode="cover"
             />
             <Text style={styles.heading}>{result.Title}</Text>
-          </View>
+          </View>;
         })}
       </ScrollView>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '700',
     textAlign: 'center',
-    marginButtom: 20,
+    marginBottom: 20,
   },
   searchbox: {
     fontSize: 20,
