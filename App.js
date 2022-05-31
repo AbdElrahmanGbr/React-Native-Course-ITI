@@ -5,9 +5,9 @@
  * @format
  * @flow strict-local
  */
-
-import React from 'react';
-import type {Node} from 'react';
+import axios from 'axios';
+import React, { userState } from 'react';
+import type { Node } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,6 +16,8 @@ import {
   Text,
   useColorScheme,
   View,
+  TextInput,
+  Image,
 } from 'react-native';
 
 import {
@@ -26,87 +28,99 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  const apiurl = 'http://www.omdbapi.com/?apikey=cf8233a2';
+  const [state, setState] = React.useState({
+    s: 'Enter a movie...',
+    results: [],
+    selected: {},
+  });
 
+  const search = () => {
+    axios.get(apiurl + '&s=' + state.s).then(({ data }) => {
+      let results = data.Search;
+      console.log(results);
+      setState(prevState => {
+        return { ...prevState, results: results };
+      });
+    });
+  };
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.title}>Movie DB</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={text => setState(prevState => {
+          return { ...prevState, s: text };
+        })}
+        onSubmitEditing={search}
+        value={state.s}
+      />
+      <ScrollView style={styles.results}>
+        {state.results.map(result => {
+          <View key={result.imdbID} style={styles.result}>
+            <Image
+              source={{uri: result.Poster}}
+              style={{
+                width: '100%',
+                height: 300,
+              }}
+              resizeMode="cover"
+            />
+            <Text style={styles.heading}>{result.Title}</Text>
+          </View>
+        })}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#223343',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 70,
+    paddingHorizontal: 20,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
+  title: {
+    color: '#FFF',
+    fontSize: 32,
     fontWeight: '700',
+    textAlign: 'center',
+    marginButtom: 20,
+  },
+  searchbox: {
+    fontSize: 20,
+    fontWeight: '300',
+    padding: 20,
+    width: '100%',
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    marginBottom: 40,
+  },
+  results: {
+    flex: 1,
+  },
+  result: {
+    flex: 1,
+    width: '100%',
+    marginBottom: 20,
+  },
+  heading: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '700',
+    padding: 20,
+    backgroundColor: '#445565',
   },
 });
+
 
 export default App;
