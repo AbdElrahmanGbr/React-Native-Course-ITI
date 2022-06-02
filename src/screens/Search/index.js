@@ -16,10 +16,12 @@ import styles from './styles';
 export const SearchScreen = () => {
   const [value, setValue] = useState('');
   const [data, setData] = useState([]);
+  const [filteredData, setfilteredData] = useState([]);
 
   const onPressSearch = async () => {
     const _data = await getMovieList({searchValue: value});
     setData(_data);
+    setfilteredData(_data);
   };
 
   useEffect(() => {
@@ -43,7 +45,6 @@ export const SearchScreen = () => {
     }
   };
 
-  const [filteredData, setfilteredData] = useState([]);
 
   const renderItem = ({item}) => {
     return (
@@ -66,7 +67,8 @@ export const SearchScreen = () => {
           <>
             <Input
               value={value}
-              onChangeText={_value => setValue(_value)}
+              onChangeText={searchFilter}
+              placeholder="Search"
               right={
                 <Pressable
                   style={styles.searchIconContainer}
