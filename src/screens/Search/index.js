@@ -17,11 +17,13 @@ export const SearchScreen = () => {
   const [value, setValue] = useState('');
   const [data, setData] = useState([]);
   const [filteredData, setfilteredData] = useState([]);
+  const [page, setPage] = useState(1);
 
   const onPressSearch = async () => {
-    const _data = await getMovieList({searchValue: value});
+    const _data = await getMovieList({searchValue: value, page: page});
     setData(_data);
     setfilteredData(_data);
+    setPage(page+1);
   };
 
   useEffect(() => {
@@ -44,7 +46,16 @@ export const SearchScreen = () => {
       setfilteredData(newData);
     }
   };
-
+  
+  const renderLoader = () => {
+    return (
+      <View style={styles.loaderContainer}>
+        <Text size="large" color="#aaa">
+          Loading...
+        </Text>
+      </View>
+    );
+  };
 
   const renderItem = ({item}) => {
     return (
@@ -59,7 +70,7 @@ export const SearchScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        filteredData={filteredData}
+        data={filteredData}
         contentContainerStyle={styles.contentContainer}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
@@ -85,7 +96,10 @@ export const SearchScreen = () => {
             <Header text={'Search Result'} />
           </>
         }
-      />
+        onEndReached={onPressSearch}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={renderLoader}
+        />
     </SafeAreaView>
   );
 };
