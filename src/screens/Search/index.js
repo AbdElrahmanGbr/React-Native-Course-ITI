@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,29 @@ export const SearchScreen = () => {
     setData(_data);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onPressSearch();
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [value]);
+  
+  const searchFilter = _value => {
+    setValue(_value);
+    const newData = data?.filter(item => {
+      const itemData = item.Title.toUpperCase();
+      const textData = _value.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    if (_value.length === 0) {
+      setfilteredData([]);
+    } else {
+      setfilteredData(newData);
+    }
+  };
+
+  const [filteredData, setfilteredData] = useState([]);
+
   const renderItem = ({item}) => {
     return (
       <MovieCard
@@ -35,7 +58,7 @@ export const SearchScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={data}
+        filteredData={filteredData}
         contentContainerStyle={styles.contentContainer}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
