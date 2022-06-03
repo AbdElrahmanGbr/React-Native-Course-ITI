@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Pressable} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styles from './styles';
 
-export const MovieCard = ({title, releaseDate, imageUrl}) => {
+export const MovieCard = ({title, releaseDate, imageUrl, onPress}) => {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <FastImage
         source={
           imageUrl === 'N/A'
@@ -19,6 +19,6 @@ export const MovieCard = ({title, releaseDate, imageUrl}) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.releaseDateText}>{`Released: ${releaseDate}`}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
