@@ -1,10 +1,9 @@
 import {StyleSheet} from 'react-native';
-import {COLORS} from '../../theme';
+import {COLORS, FONTS} from '../../theme';
 
 export default StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: COLORS.oxfordBlue,
     overflow: 'hidden',
   },
   searchIconContainer: {
@@ -21,5 +20,17 @@ export default StyleSheet.create({
   icon: {alignSelf: 'center'},
   contentContainer: {
     paddingHorizontal: 16,
+  },
+  noResultView: {
+    marginTop: 200,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noSearchText: {
+    color: COLORS.hitGrey,
+    fontSize: 24,
+    marginTop: 24,
+    fontFamily: FONTS.bold,
   },
 });

@@ -103,3 +103,87 @@ export const SearchScreen = () => {
     </SafeAreaView>
   );
 };
+
+
+// ===========================Was trying debounce lodash from meduium and debounce input from freecodecamp==========================
+// import debounce from 'lodash.debounce';
+// export const SearchScreen = () => {
+//   const [value, setValue] = useState('');
+//   const [data, setData] = useState([]);
+//   const [page, setPage] = useState(1);
+//   const navigation = useNavigation();
+//   const _state = useSelector(state => state); // STATE
+//   const dispatch = useDispatch();
+
+//   const debounce = (func) => {
+//     let timer;
+//     return function (...args) {
+//       const context = this;
+//       if(timer) {
+//         clearTimeout(timer);
+//       }
+//       timer = setTimeout(() => {
+//         func.apply(context, args);
+//       }, 500);
+//     }
+//   }
+//   const [search, setSearch] = useState([]);
+//   const handleChange = (event) => {
+//     const {value} = event.target;
+//     fetch(`http://www.omdbapi.com/?s=${value}&apikey=cf8233a2`)
+//       .then(res => res.json())
+//       .then(json => setSearch(json.data.items));
+//   };
+
+//   const optimisedVersion = useCallback(debounce(handleChange), []);
+
+  // const [searchTerm, setSearchTerm] = useState("");
+
+  // let listToDisplay = fruits;
+
+  // const handleChange = (e) => {
+  //   setSearchTerm(e.target.value);
+  // };
+
+  // const renderFruitList = () => {
+  //   return listToDisplay.map((fruit, i) => <p key={i}>{fruit}</p>);
+  // };
+
+  // if (searchTerm !== "") {
+  //   listToDisplay = fruits.filter((fruit) => {
+  //     return fruit.includes(searchTerm);
+  //   });
+  // }
+
+
+
+
+
+  // const updateDebounceText = debounce(async (text) => {
+  //   const _data = await getMovieList({
+  //     query: text,
+  //     page,
+  //   });
+  //   setData(_data);
+  // }, 500);
+
+  // input.addEventListener('input', e => {
+  //   defaultText.textContent=e.target.value;
+  //   updateDebounceText(e.target.value);
+  // });
+
+  // function debounce(cd, delay=1000){
+  //   let timeout
+  //   return function(...args){
+  //     clearTimeout(timeout)
+  //     timeout = setTimeout(() => {
+  //       cd(...args)
+  //     }, delay)
+  //   }
+  // }
+  // console.log(_state);
+
+  // function debounce ( cb , delay = 1000 ) {
+  //   return ( ... args )
+  // }
+

@@ -1,13 +1,18 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
-import {SearchScreen} from './screens';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import RootNavigation from './navigation';
+import {persistor, store} from './store';
 
 const App = () => {
   return (
-    <>
-      <StatusBar barStyle="light-content" />
-      <SearchScreen />
-    </>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <StatusBar barStyle="light-content" />
+        <RootNavigation />
+      </PersistGate>
+    </Provider>
   );
 };
 
